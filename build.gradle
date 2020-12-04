@@ -29,7 +29,7 @@ plugins {
 }
 
 group = "org.jhipster.petclinic"
-version = "0.4.0"
+version = "0.0.1-SNAPSHOT"
 
 description = ""
 
@@ -140,8 +140,8 @@ project.ext.diffChangelogFile = "src/main/resources/config/liquibase/changelog/"
 liquibase {
     activities {
         main {
-            driver "org.postgresql.Driver"
-            url "jdbc:postgresql://localhost:5432/jhpetclinic"
+            driver "org.h2.Driver"
+            url "jdbc:h2:file:./build/h2db/db/jhpetclinic"
             username "jhpetclinic"
             password ""
             changeLogFile "src/main/resources/config/liquibase/master.xml"
@@ -150,12 +150,12 @@ liquibase {
             classpath "src/main/resources/"
         }
         diffLog {
-            driver "org.postgresql.Driver"
-            url "jdbc:postgresql://localhost:5432/jhpetclinic"
+            driver "org.h2.Driver"
+            url "jdbc:h2:file:./build/h2db/db/jhpetclinic"
             username "jhpetclinic"
             password ""
             changeLogFile project.ext.diffChangelogFile
-            referenceUrl "hibernate:spring:org.jhipster.petclinic.domain?dialect=io.github.jhipster.domain.util.FixedPostgreSQL10Dialect&hibernate.physical_naming_strategy=org.springframework.boot.orm.jpa.hibernate.SpringPhysicalNamingStrategy&hibernate.implicit_naming_strategy=org.springframework.boot.orm.jpa.hibernate.SpringImplicitNamingStrategy"
+            referenceUrl "hibernate:spring:org.jhipster.petclinic.domain?dialect=org.hibernate.dialect.H2Dialect&hibernate.physical_naming_strategy=org.springframework.boot.orm.jpa.hibernate.SpringPhysicalNamingStrategy&hibernate.implicit_naming_strategy=org.springframework.boot.orm.jpa.hibernate.SpringImplicitNamingStrategy"
             defaultSchemaName ""
             logLevel "debug"
             classpath "$buildDir/classes/java/main"
@@ -262,13 +262,6 @@ dependencies {
     implementation "io.springfox:springfox-bean-validators"
     implementation "org.postgresql:postgresql"
     liquibaseRuntime "org.postgresql:postgresql"
-    implementation "com.google.cloud.sql:postgres-socket-factory:1.0.12"
-
-    implementation "com.microsoft.sqlserver:mssql-jdbc"
-    implementation "com.github.sabomichal:liquibase-mssql"
-    liquibaseRuntime  "com.microsoft.sqlserver:mssql-jdbc"
-    liquibaseRuntime "com.github.sabomichal:liquibase-mssql"
-
     implementation "org.mapstruct:mapstruct:${mapstruct_version}"
     annotationProcessor "org.mapstruct:mapstruct-processor:${mapstruct_version}"
     annotationProcessor "org.hibernate:hibernate-jpamodelgen:${hibernate_version}"
@@ -282,6 +275,7 @@ dependencies {
     testImplementation "com.tngtech.archunit:archunit-junit5-api:${archunit_junit5_version}"
     testRuntimeOnly "com.tngtech.archunit:archunit-junit5-engine:${archunit_junit5_version}"
     testImplementation "com.h2database:h2"
+    liquibaseRuntime "com.h2database:h2"
     //jhipster-needle-gradle-dependency - JHipster will add additional dependencies here
 }
 
@@ -302,7 +296,7 @@ task cleanResources(type: Delete) {
 }
 
 wrapper {
-    gradleVersion = "6.4.1"
+    gradleVersion = "6.5"
 }
 
 
