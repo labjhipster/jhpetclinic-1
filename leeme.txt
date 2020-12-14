@@ -1,0 +1,3 @@
+psql -h localhost -d postgres
+
+CREATE DATABASE jhpetclinic;
